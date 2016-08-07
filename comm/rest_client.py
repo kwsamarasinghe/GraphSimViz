@@ -1,23 +1,21 @@
 import httplib
+import sys
 
 #REST client which performs a HTTP request to the GraphML server
 class RestClient:
 
-    #url and port of the graphml server
-    url=""
-
-    #connection
-    connection=None
-
     def __init__(self,url):
         self.url=url
-        self.connection=httplib.HTTPConnection(url)
+        try:
+            self.connection=httplib.HTTPConnection(url)
+        except HTTPException as error:
+            raise Exception("Error connecting "+ url)
 
     #performs a HTTP GET request
     def get(self,resource,parameters):
-        self.connection.request("GET",resource)
         try:
+            self.connection.request("GET",resource)
             r=self.connection.getresponse()
             return r.read()
-        except Exception as e:
-            print "error performing GET "+e
+        except Exception as error:
+            raise Exception("Error requesting resouce "+ resource)
