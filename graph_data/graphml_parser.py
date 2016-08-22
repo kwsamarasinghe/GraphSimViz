@@ -39,6 +39,9 @@ class GraphMLParser:
         for edge in graph.getElementsByTagName("edge"):
             source = edge.getAttribute('source')
             dest = edge.getAttribute('target')
-            e = g.add_edge(source, dest)
+
+            edge=g.edge(dest,source)
+            if(edge==None):
+                e = g.add_edge(source, dest)
 
 	return g
